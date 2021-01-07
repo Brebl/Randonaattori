@@ -6,7 +6,7 @@ Output could be used as a reasonably good password.
   
 This program use only predefined functions, nothing "home-made stuff".  
   
-# Compile:  
+## Compile:  
 g++ randonaattori.cpp -o randonaattori  
   
 Example usage:  
