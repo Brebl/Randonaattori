@@ -37,7 +37,7 @@ Additional arguments:
 -z          Only special chars
 
 randonaattori -pzc 50
-Will output 50 random special characters
+Output 50 random special characters
 */
 
 #include <random>
