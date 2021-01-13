@@ -10,10 +10,10 @@ Compile:
 g++ randonaattori.cpp -o randonaattori  
   
 Example usage:  
-Calling the program without arguments will output 32 (as default) random characters.  
+Calling the program without an argument will output 32 (as default) random characters.  
   
 Additional arguments:  
--c [number] Set output size according to [number]  
+-c [number] Set output size according to number  
 -p          Disable defaultSkip. Means that similar looking chars are included.  
 -d          Output only digits, 0-9  
 -a          Only a-z and A-Z  
