@@ -51,8 +51,8 @@ int main(int argc, char** argv)
     std::string dig = "1234567890";
     std::string spec = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     std::string limited_spec = "!@#$%";
-    std::string defaultSel = az + AZ + dig + spec;
-    std::string ownSel = "";
+    std::string defaultSelection = az + AZ + dig + spec;
+    std::string ownSelection = "";
 
     //handle arguments
     int opt = 0;
@@ -94,23 +94,23 @@ int main(int argc, char** argv)
                 break;
             //use digits
             case 'd':
-                ownSel += dig;
+                ownSelection += dig;
                 break;
             //use a-z
             case 'a':
-                ownSel += az;
+                ownSelection += az;
                 break;
             //use A-Z
             case 'A':
-                ownSel += AZ;
+                ownSelection += AZ;
                 break;
             //use special chars
             case 'z':
-                ownSel += spec;
+                ownSelection += spec;
                 break;
             //special set 1 (eg. Paypal)
             case 'q':
-                ownSel = dig + az + AZ + limited_spec;
+                ownSelection = dig + az + AZ + limited_spec;
                 pwdSize = 20;
                 break;
             default:
@@ -118,8 +118,8 @@ int main(int argc, char** argv)
         }
     }
 
-    if(ownSel.length() > 0) {
-        defaultSel = ownSel;
+    if(ownSelection.length() > 0) {
+        defaultSelection = ownSelection;
     }
 
     std::random_device rd("/dev/urandom");
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
     //output results
     for (size_t i = 0; i < pwdSize; ) {
         c = d(rd);
-        if(!strchr(defaultSkip.c_str(),c) && strchr(defaultSel.c_str(),c)) {
+        if(!strchr(defaultSkip.c_str(),c) && strchr(defaultSelection.c_str(),c)) {
             std::cout << c; 
             i++;
         }
