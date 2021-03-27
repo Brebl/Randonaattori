@@ -33,6 +33,7 @@ Calling the program without arguments will output 32 (as default) random charact
 #include <random>
 #include <iostream>
 #include <cstring>
+#include <string>
 #if __GNUC__ >= 8 && __linux__ == 1
 #include <unistd.h> //getopt
 #else
@@ -41,15 +42,21 @@ Calling the program without arguments will output 32 (as default) random charact
 
 int main(int argc, char** argv)
 {    
-    size_t defaultSize = 32;
-    char lowerBound = '!';
-    char upperBound = '~';
-    char const* defaultSkip = "`0OoIl|";
-    char const* additionalSkip = "";
+    size_t pwdSize = 32;
+    char lowerBound = 0x21;
+    char upperBound = 0x7e;
+    std::string defaultSkip = "`0OoIl|";
+    std::string az = "qwertyuiopasdfghjklzxcvbnm";
+    std::string AZ = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    std::string dig = "1234567890";
+    std::string spec = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    std::string limited_spec = "!@#$%";
+    std::string defaultSel = az + AZ + dig + spec;
+    std::string ownSel = "";
 
     //handle arguments
     int opt = 0;
-    while ((opt = getopt (argc, argv, "hc:pdazq")) != -1) {
+    while ((opt = getopt (argc, argv, "hc:pdaAzq")) != -1) {
         switch (opt){
             //help
             case 'h':
@@ -66,9 +73,10 @@ int main(int argc, char** argv)
                 << "-h          Help\n"
                 << "-c [number] Set output size according to [number]\n"
                 << "-p          Disable defaultSkip. Means that similar looking chars are included.\n"
-                << "-d          Output only digits, 0-9\n"
-                << "-a          Only a-z and A-Z\n"
-                << "-z          Only special chars\n"
+                << "-d          Use digits, 0-9\n"
+                << "-a          Use a-z\n"
+                << "-A          Use A-Z\n"
+                << "-z          Use special chars\n"
                 << "-q          Special set1 (Paypal)\n"
                 << "\n"
                 << "Example usage:\n"
@@ -78,35 +86,40 @@ int main(int argc, char** argv)
                 exit(0);
             //output size
             case 'c':
-                defaultSize = atoi(optarg);
+                pwdSize = atoi(optarg);
                 break;          
             //prevent default skip
             case 'p':
                 defaultSkip = "";
                 break;
-            //only digits
+            //use digits
             case 'd':
-                lowerBound = '0';
-                upperBound = '9';
+                ownSel += dig;
                 break;
-            //only alfa
+            //use a-z
             case 'a':
-                lowerBound = 'A';
-                upperBound = 'z';
-                additionalSkip = "[]\\^_`";
+                ownSel += az;
                 break;
-            //only special
+            //use A-Z
+            case 'A':
+                ownSel += AZ;
+                break;
+            //use special chars
             case 'z':
-                additionalSkip = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+                ownSel += spec;
                 break;
             //special set 1 (eg. Paypal)
             case 'q':
-                additionalSkip = "\"'+`-_/\\,.:;<>=?[]{}~";
-                defaultSize = 20;
+                ownSel = dig + az + AZ + limited_spec;
+                pwdSize = 20;
                 break;
             default:
                 abort();
         }
+    }
+
+    if(ownSel.length() > 0) {
+        defaultSel = ownSel;
     }
 
     std::random_device rd("/dev/urandom");
@@ -114,14 +127,15 @@ int main(int argc, char** argv)
     char c = '0';
     
     //output results
-    for (size_t i = 0; i < defaultSize; ) {
+    for (size_t i = 0; i < pwdSize; ) {
         c = d(rd);
-        if(strchr(defaultSkip,c) || strchr(additionalSkip,c)){
-            continue;
+        if(!strchr(defaultSkip.c_str(),c) && strchr(defaultSel.c_str(),c)) {
+            std::cout << c; 
+            i++;
         }
-        std::cout << c; 
-        i++;
+        continue;
     }
+
     std::cout << std::endl;
     explicit_bzero(&c, sizeof(c));
 }
