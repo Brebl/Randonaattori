@@ -17,7 +17,7 @@ Additional arguments:
 -c [number] Set output size according to number  
 -p          Disable defaultSkip. Means that similar looking chars are included.  
 -d          Use digits, 0-9  
--a          Use a-z
+-a          Use a-z  
 -A          Use A-Z  
 -z          Use special chars  
   
