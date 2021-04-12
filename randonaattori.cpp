@@ -35,10 +35,13 @@ Calling the program without arguments will output 32 (as default) random charact
 #include <cstring>
 #include <string>
 #if __GNUC__ >= 8 && __linux__ == 1
-#include <unistd.h> //getopt
+#include <getopt.h> //getopt
 #else
 #error supports gcc version subsequent to 8.0.0
 #endif
+#define MAJOR_VERSION 1
+#define MINOR_VERSION 2
+#define PATCH_VERSION 0
 
 int main(int argc, char** argv)
 {    
@@ -55,8 +58,19 @@ int main(int argc, char** argv)
     std::string ownSelection = "";
 
     //handle arguments
+    static struct option long_options[] = {
+    /*   NAME       ARGUMENT           FLAG  SHORTNAME */
+        {"help",    no_argument,        NULL,   'h'},
+        {"version", no_argument,        NULL,   'v'},
+        {"file",    required_argument,  NULL,   'f'},
+        {"paypal",  no_argument,        NULL,   301},
+        {"origin",  no_argument,        NULL,   302},
+        {NULL,      0,                  NULL,   0}
+    };
     int opt = 0;
-    while ((opt = getopt (argc, argv, "hc:pdaAzqw")) != -1) {
+    int option_index = 0;
+    while ((opt = getopt_long(argc, argv, "hvc:pdaAz",
+                 long_options, &option_index)) != -1) {
         switch (opt){
             //help
             case 'h':
@@ -71,14 +85,16 @@ int main(int argc, char** argv)
                 << "\n"
                 << "Additional arguments:\n"
                 << "-h          Help\n"
+                << "-v\n"
+                << "--version   Version\n"
                 << "-c [number] Set output size according to [number]\n"
                 << "-p          Disable defaultSkip. Means that similar looking chars are included.\n"
                 << "-d          Use digits, 0-9\n"
                 << "-a          Use a-z\n"
                 << "-A          Use A-Z\n"
                 << "-z          Use special chars\n"
-                << "-q          Special set1 (Paypal)\n"
-                << "-w          Special set2 (Origin)\n"
+                << "--paypal    Special set for Paypal\n"
+                << "--origin    Special set for Origin\n"
                 << "\n"
                 << "Example usage:\n"
                 << "Calling the program without arguments will output 32 (as default) random characters.\n"
@@ -110,14 +126,19 @@ int main(int argc, char** argv)
                 ownSelection += spec;
                 break;
             //special set 1 (eg. Paypal)
-            case 'q':
+            case 301:
                 ownSelection = dig + az + AZ + limited_spec;
                 pwdSize = 20;
                 break;
             //special set 2 (eg. Origin)
-            case 'w':
+            case 302:
                 ownSelection = dig + az + AZ + limited_spec;
                 pwdSize = 16;
+                break;
+           //version
+            case 'v':
+                std::cout << "Rand version: " << MAJOR_VERSION << "." << MINOR_VERSION << "." << PATCH_VERSION << "\n";
+                exit(0);
                 break;
             default:
                 abort();
