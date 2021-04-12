@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
     //handle arguments
     int opt = 0;
-    while ((opt = getopt (argc, argv, "hc:pdaAzq")) != -1) {
+    while ((opt = getopt (argc, argv, "hc:pdaAzqw")) != -1) {
         switch (opt){
             //help
             case 'h':
@@ -78,6 +78,7 @@ int main(int argc, char** argv)
                 << "-A          Use A-Z\n"
                 << "-z          Use special chars\n"
                 << "-q          Special set1 (Paypal)\n"
+                << "-w          Special set2 (Origin)\n"
                 << "\n"
                 << "Example usage:\n"
                 << "Calling the program without arguments will output 32 (as default) random characters.\n"
@@ -113,6 +114,11 @@ int main(int argc, char** argv)
                 ownSelection = dig + az + AZ + limited_spec;
                 pwdSize = 20;
                 break;
+            //special set 2 (eg. Origin)
+            case 'w':
+                ownSelection = dig + az + AZ + limited_spec;
+                pwdSize = 16;
+                break;
             default:
                 abort();
         }
@@ -133,7 +139,6 @@ int main(int argc, char** argv)
             std::cout << c; 
             i++;
         }
-        continue;
     }
 
     std::cout << std::endl;
