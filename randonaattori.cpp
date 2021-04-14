@@ -34,11 +34,7 @@ Calling the program without arguments will output 32 (as default) random charact
 #include <iostream>
 #include <cstring>
 #include <string>
-#if __GNUC__ >= 8 && __linux__ == 1
 #include <getopt.h> //getopt
-#else
-#error supports gcc version subsequent to 8.0.0
-#endif
 #define MAJOR_VERSION 1
 #define MINOR_VERSION 2
 #define PATCH_VERSION 0
