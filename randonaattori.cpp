@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     };
     int opt = 0;
     int option_index = 0;
-    while ((opt = getopt_long(argc, argv, "hvc:pdaAz",
+    while ((opt = getopt_long(argc, argv, "hvc:pdaAzZ",
                  long_options, &option_index)) != -1) {
         switch (opt){
             //help
@@ -89,6 +89,7 @@ int main(int argc, char** argv)
                 << "-a          Use a-z\n"
                 << "-A          Use A-Z\n"
                 << "-z          Use special chars\n"
+                << "-Z          Use limited type of special chars\n"
                 << "--paypal    Special set for Paypal\n"
                 << "--origin    Special set for Origin\n"
                 << "\n"
@@ -120,6 +121,10 @@ int main(int argc, char** argv)
             //use special chars
             case 'z':
                 ownSelection += spec;
+                break;
+            //use limited special chars
+            case 'Z':
+                ownSelection += limited_spec;
                 break;
             //special set 1 (eg. Paypal)
             case 301:
