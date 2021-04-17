@@ -32,8 +32,8 @@ includedir 		= $(prefix)include/
 ################################
 PROG_NAME 		= rand
 
-rootdir			= `pwd`
-builddir 		= $(rootdir)/bin/
+dir				= `pwd`
+builddir 		= $(dir)/bin/
 incdir			= ./inc/
 src_basedir		= ./src/
 srcdirs			= $(addsuffix /,$(shell find $(patsubst %/,%,$(src_basedir)) -type d))
