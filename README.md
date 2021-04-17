@@ -8,6 +8,8 @@ This program use only predefined functions, nothing "home-made stuff".
   
 Compile:  
 g++ randonaattori.cpp -o randonaattori  
+or  
+make  
   
 Example usage:  
 Calling the program without an argument will output 32 (as default) random characters.  
@@ -20,6 +22,9 @@ Additional arguments:
 -a          Use a-z  
 -A          Use A-Z  
 -z          Use special chars  
+-Z          Use limited type of special chars  
+--paypal    Special set for Paypal  
+--origin    Special set for Origin  
   
 randonaattori -pzc 50  
 Output 50 random special characters  
