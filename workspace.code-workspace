@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../shitties/getopt_long"
 		}
 	],
 	"settings": {
