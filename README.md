@@ -7,7 +7,7 @@ Output could be used as a reasonably good password.
 This program use only predefined functions, nothing "home-made stuff".  
   
 Compile:  
-g++ randonaattori.cpp -o randonaattori  
+g++ randonaattori.cpp -o rand  
 or  
 make  
   
@@ -26,5 +26,5 @@ Additional arguments:
 --paypal    Special set for Paypal  
 --origin    Special set for Origin  
   
-randonaattori -pzc 50  
+rand -pzc 50  
 Output 50 random special characters  
